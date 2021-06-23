@@ -28,3 +28,9 @@ input {
   padding: 5px;
   font-size: 1em;
 }
+
+.card-container {
+  display: inline-block;
+  padding: 30px;
+
+}

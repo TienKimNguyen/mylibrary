@@ -52,16 +52,18 @@ class Books extends Component{
      if (this.state.sort === 'Newest') {
        // substring 0 - 4 is grasping the year
        return parseInt(b.volumeInfo.publishedDate.substring(0,4)) - parseInt(a.volumeInfo.publishedDate.substring(0,4));
-     } else if  (this.state.sort === 'Newest') {
+     } else if  (this.state.sort === 'Oldest') {
       // substring 0 - 4 is grasping the year
       return parseInt(a.volumeInfo.publishedDate.substring(0,4)) - parseInt(b.volumeInfo.publishedDate.substring(0,4));
+    } else {
+      return 0;
     }
    })
 
     return(
       <div className = "Books">
         <SearchArea searchBook={this.searchBook} handleSearch={this.handleSearch} handleSort={this.handleSort} />
-        <BookList books = {this.state.books} />
+        <BookList books = {sortedBooks} />
       </div>
     );
   }
