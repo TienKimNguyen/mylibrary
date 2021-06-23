@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import SearchArea from "./SearchArea";
 
-import request from 'superagent';
+//import request from 'superagent';
 import BookList from "./BookList";
 class Books extends Component{
   constructor (props){
@@ -13,16 +13,27 @@ class Books extends Component{
     }
   };
 
-  searchBook = (e) => {
+  searchBook = async (e) => {
     e.preventDefault();
-    request
-      .get("https://www.googleapis.com/books/v1/volumes")
-      .query({q: this.state.searchField})
-      .then((data) => {
-        const cleanData = this.cleanData(data)
-        this.setState({books: cleanData})
-      })
+    const searchTerm = this.state.searchField;
+    const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`);
+    const data = await api_call.json();
+    console.log(data);
+    const cleanData = this.cleanData(data)
+    this.setState({books: cleanData})
   }
+
+  // searchBook = (e) => {
+  //   e.preventDefault();
+  //   request
+  //     .get("https://www.googleapis.com/books/v1/volumes?q=cat&maxResults=40")
+  //     .query({q: this.state.searchField})
+  //     .then((data) => {
+  //       console.log(data);
+  //       const cleanData = this.cleanData(data)
+  //       this.setState({books: cleanData})
+  //     })
+  // }
 
   handleSearch = (e) => {
     this.setState({searchField: e.target.value})
@@ -33,7 +44,7 @@ class Books extends Component{
   }
 
   cleanData = (data) => {
-    const cleanedData = data.body.items.map((book) => {
+    const cleanedData = data.items.map((book) => {
       if (book.volumeInfo.hasOwnProperty('publishedDate') === false){
         book.volumeInfo['publishedDate'] = '0000';
       } 

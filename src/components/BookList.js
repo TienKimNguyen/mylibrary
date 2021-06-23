@@ -3,7 +3,7 @@ import BookCard from './BookCard';
 
 const BookList = (props) => {
     return(
-       <div className="list">
+       <div className="list row">
             {
                 props.books.map((book, i) => {
                     return <BookCard 
