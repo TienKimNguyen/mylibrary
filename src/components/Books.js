@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import SearchArea from "./SearchArea";
-
-//import request from 'superagent';
 import BookList from "./BookList";
 class Books extends Component{
   constructor (props){
@@ -9,31 +7,25 @@ class Books extends Component{
     this.state = {
       books: [],
       searchField: '',
-      sort: ''
+      sort: '',
+      error: undefined
     }
   };
 
   searchBook = async (e) => {
     e.preventDefault();
     const searchTerm = this.state.searchField;
-    const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`);
-    const data = await api_call.json();
-    console.log(data);
-    const cleanData = this.cleanData(data)
-    this.setState({books: cleanData})
-  }
+    if (searchTerm){
+      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`);
+      const data = await api_call.json();
+      console.log(data);
+      const cleanData = this.cleanData(data)
+      this.setState({books: cleanData})
+    } else {
+      this.setState({error: "Please enter a keyword to search!"})
+    }
 
-  // searchBook = (e) => {
-  //   e.preventDefault();
-  //   request
-  //     .get("https://www.googleapis.com/books/v1/volumes?q=cat&maxResults=40")
-  //     .query({q: this.state.searchField})
-  //     .then((data) => {
-  //       console.log(data);
-  //       const cleanData = this.cleanData(data)
-  //       this.setState({books: cleanData})
-  //     })
-  // }
+  }
 
   handleSearch = (e) => {
     this.setState({searchField: e.target.value})
@@ -71,10 +63,12 @@ class Books extends Component{
     }
    })
 
+   const error = this.state.error;
+
     return(
       <div className = "Books">
         <SearchArea searchBook={this.searchBook} handleSearch={this.handleSearch} handleSort={this.handleSort} />
-        <BookList books = {sortedBooks} />
+        <BookList books = {sortedBooks} error={error} />
       </div>
     );
   }

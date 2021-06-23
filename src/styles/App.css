@@ -59,7 +59,7 @@ input {
 .bookCard-col{
   padding: 3% 2%;
   display: inline;
-  margin: 1rem;
+  margin: 2rem;
 }
 
 .card-container {
@@ -72,10 +72,14 @@ input {
   padding-top: 10px;
 }
 
-.card-btn{
-  /* margin-top: 15px; */
-}
-
 .preview-btn{
   margin-left: 15px;
+}
+
+
+.books__error {
+  color: #f16051;
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-weight: 400;
 }

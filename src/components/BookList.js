@@ -15,6 +15,9 @@ const BookList = (props) => {
                     />
                 })
             }
+            {
+                props.error && <p className="books__error">{props.error}</p>
+            }
        </div>
     )
 }
