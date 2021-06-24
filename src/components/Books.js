@@ -16,11 +16,11 @@ class Books extends Component{
     e.preventDefault();
     const searchTerm = this.state.searchField;
     if (searchTerm){
-      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40`);
+      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&printType=all&maxResults=40`);
       const data = await api_call.json();
       console.log(data);
       const cleanData = this.cleanData(data)
-      this.setState({books: cleanData})
+      this.setState({books: cleanData, error: ""})
     } else {
       this.setState({error: "Please enter a keyword to search!"})
     }

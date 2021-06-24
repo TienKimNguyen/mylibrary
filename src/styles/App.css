@@ -1,9 +1,8 @@
-/* *{
-  box-sizing: border-box;
-  margin: 0;
-} */
-
-
+.App{
+  display: block;
+  justify-content: center;
+  height: 1028px;
+}
 
 header {
   padding: 50px 0;
@@ -39,12 +38,17 @@ input {
   margin: 0 15px;
 }
 
+/* .sort-btn{
+  width: 100px;
+  height: 45px;
+} */
+
 /* 
   BOOK LIST 
 */
 
 .list{
-  padding: 50px 100px;
+  padding-top: 50px;
   text-align: center;
 }
 
@@ -52,19 +56,23 @@ input {
   CARD CONTAINER
 */
 .book-image{
-  height: 200px;
-  width: 100;
+  width: 100%;
 }
 
 .bookCard-col{
+ 
   padding: 3% 2%;
-  display: inline;
-  margin: 2rem;
 }
 
 .card-container {
+
   display: inline-block;
   padding: 30px;
+}
+
+.card-container:hover{
+  cursor: pointer;
+  transform: scale(1.1);
 }
 
 .desc{
