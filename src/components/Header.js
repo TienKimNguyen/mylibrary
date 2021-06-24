@@ -1,6 +1,7 @@
 import React from "react";
+import SearchArea from "./SearchArea";
 
-const Header = () => {
+const Header = (props) => {
   return (
     // <nav class="navbar navbar-expand-lg navbar-light bg-light">
     //   <div class="container-fluid">
@@ -30,10 +31,15 @@ const Header = () => {
     //    </form>
     //  </div>
     // </nav>
-    <header>
-      <i className="fas fa-book-reader fa-3x"></i>
-      <h1>My Books</h1>
-    </header>
+    <div className="main-header">
+      <div className="header" >
+        <i className="fas fa-book-reader fa-3x"></i>
+        <h1>My Books</h1>    
+      </div>
+      <div className="search-bar">
+        <SearchArea searchBook={props.searchBook} handleSearch={props.handleSearch} handleSort={props.handleSort}/>
+      </div>
+    </div>
   );    
 }
 

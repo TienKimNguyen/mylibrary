@@ -1,8 +1,12 @@
-import React from "react";
+import * as React from "react";
+import { Provider, Modal, Button, Portal } from "react";
 
 const BookCard = (props) => {
 
     const link = props.previewLink;
+
+
+
     return (
             <div className="bookCard-col col-lg-3 col-sm-4">
                 <div className="card-container">
@@ -22,7 +26,6 @@ const BookCard = (props) => {
                      </div>
                  </div>
             </div>
-
     );
 }
 
