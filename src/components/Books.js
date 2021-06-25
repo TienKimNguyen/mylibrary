@@ -23,11 +23,12 @@ class Books extends Component{
       const cleanData = this.cleanData(data)
       this.setState({
         books: cleanData, 
-        error: ""})
+        error: "",
+      })
     } else {
+      console.log("Hi");
       this.setState({error: "Please enter a keyword to search!"})
     }
-
   }
 
   handleSearch = (e) => {

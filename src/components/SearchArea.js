@@ -4,16 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Dropdown } from "react-bootstrap";
 
 const SearchArea = (props) => {
-  // const [value, setValue] = useState('');
-  // const handleSelect = (e) => {
-  //   setValue(e);
-  // }
 
   return (
     <div className="search-area">
-      <form onSubmit={props.searchBook} action="">
+      <form onSubmit={props.searchBook} id="input-form">
         <input onChange={props.handleSearch} placeholder={'Enter a keyword to search...'} type = "text"/>
-        <button type="submit" className="btn search-btn btn-lg btn-light">Search</button>
+        <button type="submit reset" className="btn search-btn btn-lg btn-light">Search</button>
         <select defaultValue="Sort" onChange={props.handleSort} className="sort-btn browser-default custom-select">
           <option disabled value="Sort">Sort</option>
           <option value="Newest">Newest</option>
