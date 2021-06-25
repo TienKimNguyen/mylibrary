@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Header from "./Header";
 import BookList from "./BookList";
-import SearchArea from "./SearchArea";
+// import SearchArea from "./SearchArea";
 class Books extends Component{
   constructor (props){
     super(props);
@@ -21,7 +21,9 @@ class Books extends Component{
       const data = await api_call.json();
       console.log(data);
       const cleanData = this.cleanData(data)
-      this.setState({books: cleanData, error: ""})
+      this.setState({
+        books: cleanData, 
+        error: ""})
     } else {
       this.setState({error: "Please enter a keyword to search!"})
     }

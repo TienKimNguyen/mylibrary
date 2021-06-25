@@ -1,31 +1,45 @@
 import * as React from "react";
-import { Provider, Modal, Button, Portal } from "react";
+import { Button, Card } from "react-bootstrap";
+
+import BookDetail from "./Popup";
 
 const BookCard = (props) => {
 
-    const link = props.previewLink;
-
-
+    const [modalShow, setModalShow] = React.useState(false);
 
     return (
-            <div className="bookCard-col col-lg-3 col-sm-4">
-                <div className="card-container">
-                    <div className="card-image">
-                        <img src={props.image} alt="" className="book-image" />
-                    </div>
-                    <div className="card-body">
-                        {/* <h2>{props.title}</h2>
-                        <h3>Author: {props.author}</h3> */}
-                        <p>Published year: {props.published === '0000' ? 'Not available' : props.published.substring(0,4)}</p>
-                        
-                        <button type="button" className="card-btn get-btn btn btn-sm btn-outline-dark ">Get</button>
-                       
-                        <a href={link} target="/blank">
-                             <button className="card-btn preview-btn btn btn-sm btn-outline-dark">Preview</button>
-                        </a>
-                     </div>
-                 </div>
-            </div>
+             <div className="bookCard-col col-lg-3 col-md-4 col-sm-6">
+                <Card border="light" style={{ width: '18rem' }} className="card-container">
+                    <Card.Img variant="top" src={props.image} className="book-image"/>
+                    <Card.Body>
+                        {/* <Card.Title><h3>{props.title}</h3></Card.Title>
+                        <Card.Text>
+                            {props.description}
+                        </Card.Text> */}
+                        <>
+                            <Button variant="outline-dark" size = "sm" onClick={() => setModalShow(true)}>
+                                More Info
+                            </Button>
+
+                            <BookDetail
+                                image={props.image}
+                                title={props.title}
+                                authors={props.authors}
+                                publisher={props.publisher}
+                                isbn={props.isbn}
+                                length={props.length}
+                                publishedDate={props.publishedDate}
+                                categories={props.categories}
+                                description={props.description}
+                                rating={props.rating}
+                                previewLink={props.previewLink}
+                                show={modalShow}
+                                onHide={() => setModalShow(false)}
+                            />
+                        </>
+                    </Card.Body>
+                </Card>
+            </div> 
     );
 }
 

@@ -1,22 +1,18 @@
-.App{
+.App {
   display: block;
   justify-content: center;
-  height: 1028px;
   font-family: "Arial";
 }
 
 header {
-  
   background: #343a40;
-  
-
 }
 
 .main-header {
   padding: 150px 0;
   text-align: center;
   color: #fff;
-  background:  url("../images/library.jpg");
+  background: url("../images/library.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -24,14 +20,14 @@ header {
   height: 50%;
   position: relative;
   background-attachment: fixed;
-  
+
 }
 
 .main-header h1 {
   display: inline;
   margin-left: 15px;
   font-weight: 600;
-  font-size: 3rem ;
+  font-size: 3rem;
 }
 
 /* 
@@ -56,7 +52,7 @@ input {
   font-size: 1em;
 }
 
-.sort-btn{
+.sort-btn {
   width: 90px;
   height: 45px;
 }
@@ -65,40 +61,48 @@ input {
   BOOK LIST 
 */
 
-.list{
-  padding-top: 50px;
+.list {
+  padding: 50px 100px 0;
   text-align: center;
 }
 
 /*
   CARD CONTAINER
 */
-.book-image{
+.book-image {
   width: 100%;
+  height: 23em;
 }
 
-.bookCard-col{
- 
+
+@media(max-width: 768px) {
+  .book-image {
+    width: 100%;
+    height: 21em;
+  }
+}
+
+
+.bookCard-col {
   padding: 3% 2%;
 }
 
 .card-container {
-
   display: inline-block;
-  padding: 30px;
+  /* padding: 30px; */
 }
 
-.card-container:hover{
+.card-container:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
 
-.desc{
+.desc {
   width: 200px;
   padding-top: 10px;
 }
 
-.preview-btn{
+.preview-btn {
   margin-left: 15px;
 }
 
@@ -108,4 +112,8 @@ input {
   font-size: 20px;
   letter-spacing: 1px;
   font-weight: 400;
+}
+
+.book-image-popup {
+  width: 100%;
 }
