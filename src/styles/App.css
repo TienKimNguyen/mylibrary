@@ -71,7 +71,7 @@ input {
 
 
 .pageNum{
-  padding: 2px 5px;
+  padding: 2px 3px;
 }
 
 .pageNum:hover {
@@ -82,7 +82,7 @@ input {
 .pageNum:active{
   color: white;
   background-color: red;
-  border-radius: 25px;
+  border-radius: 50px;
 }
 
 .list {
