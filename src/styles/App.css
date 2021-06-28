@@ -57,8 +57,36 @@ input {
   BOOK LIST 
 */
 
+.pagination-container {
+  display: inline-block;
+}
+.pagination {
+  margin: 0 20px;
+  padding: 0px;
+  padding-top: 30px;
+  overflow-wrap: break-word;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.pageNum{
+  padding: 2px 5px;
+}
+
+.pageNum:hover {
+  cursor: pointer;
+  transform: scale(1.3);
+}
+
+.pageNum:active{
+  color: white;
+  background-color: red;
+  border-radius: 25px;
+}
+
 .list {
-  padding: 50px 100px 0;
+  padding: 15px 100px 0;
   text-align: center;
 }
 
@@ -107,11 +135,11 @@ input {
 }
 
 
-.books__error {
-  color: #f16051;
-  font-size: 20px;
+.books_error {
+  margin-top: 50px;
+  color:white;
   letter-spacing: 1px;
-  font-weight: 400;
+  
 }
 
 .book-image-popup {

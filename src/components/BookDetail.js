@@ -47,7 +47,7 @@ function BookDetail(props) {
                       </tr>
                       <tr>
                         <td>Average Rating</td>
-                        <td>{props.rating} / 5.0</td>
+                        <td>{props.rating} / 5</td>
                       </tr>
                       <tr>
                         <td>Length</td>
@@ -59,7 +59,7 @@ function BookDetail(props) {
                       </tr>
                       <tr>
                         <td>ISBN</td>
-                        <td>{props.isbn[0].identifier}</td>
+                        <td>{props.isbn}</td>
                       </tr>
                       <tr>
                         <td>Description</td>

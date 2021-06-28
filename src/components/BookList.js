@@ -1,6 +1,5 @@
 import React from 'react';
 import BookCard from './BookCard';
-import PaginationPage from './PaginationComponent';
 const BookList = (props) => {
     return(
         <div>
@@ -23,12 +22,9 @@ const BookList = (props) => {
                         />
                     })
                 }
-                {
-                    props.error && <p className="books__error">{props.error}</p>
-                }
                 
             </div>
-            <PaginationPage />
+            
         </div>
 
     )
