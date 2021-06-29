@@ -1,5 +1,4 @@
 import React from "react";
-// import { Pagination } from "react-bootstrap";
 
 const PaginationPage = (props) => {
     const pageLinks = []

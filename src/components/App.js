@@ -1,8 +1,11 @@
-import React, {Component} from "react";
+import React, {Component, useEffect} from "react";
 import Header from "./Header";
+// import BookSlide from "./BookSlide";
+// import MyBooks from "./MyBooks";
 import PaginationPage from "./PaginationComponent";
 import BookList from "./BookList";
 import '../styles/App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component{
   constructor (props){
@@ -13,22 +16,25 @@ class App extends Component{
       sort: '',
       error: undefined,
       totalItems: 0,
-      currentPage: 1
+      currentPage: 1,
+      showBookList: false,
+      favoriteBooks: []
     }
   };
-
+  
   searchBook = async (e) => {
     e.preventDefault();
     const searchTerm = this.state.searchField;
     if (searchTerm){
-      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=0&maxResults=40`);
+      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
       const data = await api_call.json();
       console.log(data);
       const cleanData = this.cleanData(data)
       this.setState({
         books: cleanData, 
         error: "",
-        totalItems: data.totalItems
+        totalItems: data.totalItems,
+        showBookList: true
       })
     } else {
       this.setState({
@@ -37,7 +43,8 @@ class App extends Component{
         searchField: '',
         totalItems: 0,
         currentPage: 1,
-        sort: ''
+        sort: '',
+        showBookList: false
       })
     }
   }
@@ -66,11 +73,10 @@ class App extends Component{
   } 
 
   handleNextPage = async(pageNumber) => {
-    
     const startIndex = (pageNumber - 1) * 40;
     const search = this.state.searchField;
     console.log(startIndex + this.state.searchField);
-    const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${startIndex}&maxResults=40`);
+    const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${startIndex}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
     const data = await api_call.json();
     console.log(data);
     const cleanData = this.cleanData(data)
@@ -81,13 +87,44 @@ class App extends Component{
     })
   }
 
+  // useEffect(() =>
+  //   bookFavs = JSON.parse(
+	// 		localStorage.getItem('book-favs')
+	// 	);
+
+  //   console.log (bookFavs !== null ? "not null" : "null");
+
+	// 	if (bookFavs) {
+	// 		this.setState({favoriteBooks : bookFavs});
+	// 	}
+	// }, []);
+ 
+
+  saveToLocalStorage = (items) => {
+		localStorage.setItem('book-favs', JSON.stringify(items));
+	};
+
+	addFavoriteBook = (book) => {
+		const newFavoriteList = [...this.state.favoriteBooks, book];
+		this.setState({favoriteBooks: newFavoriteList});
+		this.saveToLocalStorage(newFavoriteList);
+	};
+
+	removeFavoriteBook = (book) => {
+		const newFavoriteList = this.state.favoriteBooks.filter(
+			(favorite) => favorite.id !== book.id
+		);
+
+		this.setState({favoriteBooks : newFavoriteList});
+		this.saveToLocalStorage(newFavoriteList);
+	};
+
   render() {
    const sortedBooks = this.state.books.sort((a, b) => {
      if (this.state.sort === 'Newest') {
        // substring 0 - 4 is grasping the year
        return parseInt(b.volumeInfo.publishedDate.substring(0,4)) - parseInt(a.volumeInfo.publishedDate.substring(0,4));
-     } else if  (this.state.sort === 'Oldest') {
-      // substring 0 - 4 is grasping the year
+    } else if  (this.state.sort === 'Oldest') {
       return parseInt(a.volumeInfo.publishedDate.substring(0,4)) - parseInt(b.volumeInfo.publishedDate.substring(0,4));
     } else {
       return 0;
@@ -100,8 +137,14 @@ class App extends Component{
       <div className="App">
         <div className = "Books">
           <Header searchBook={this.searchBook} handleSearch={this.handleSearch} handleSort={this.handleSort} error={error}/> 
+          {/* <MyBooks /> */}
+          <h1>Books</h1>
+          {/* {this.state.showBookList === false ? <BookSlide /> : '' } */}
+
           {this.state.totalItems > 40 ? <PaginationPage pages={numberPages} prevPage={this.handlePrevPage} currentPage = {this.state.currentPage} nextPage={this.handleNextPage}/> : ''}
-          {this.state.searchTerm !== '' ? <BookList books = {sortedBooks} /> : ''}
+          {this.state.searchTerm !== '' ? <BookList books = {sortedBooks} handleFavClick={this.addFavoriteBook} /> : ''}
+          <h1>Favorite Books</h1>
+          {this.state.favoriteBooks !== null ? <BookList books = {this.state.favoriteBooks} handleFavClick={this.removeFavoriteBook} /> : '' }
         </div>
       </div>
 
