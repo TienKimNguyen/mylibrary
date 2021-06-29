@@ -75,17 +75,22 @@ input {
 
 .pagination-container {
   display: inline-block;
-  padding: 0 100px;
+  padding: 0 80px;
 }
 .pagination {
   margin: 0 20px;
-  padding: 0px;
   padding-top: 30px;
   overflow-wrap: break-word;
   justify-content: center;
   flex-wrap: wrap;
+  text-align: center;
 }
 
+a {
+  color: rgb(59, 58, 58);
+  text-decoration: none;
+  background-color: transparent; 
+}
 
 .pageNum{
   padding: 2px 3px;
@@ -94,6 +99,9 @@ input {
 .pageNum:hover {
   cursor: pointer;
   transform: scale(1.3);
+  color: #d2190b;
+  text-decoration: underline; 
+  
 }
 
 .pageNum:active{

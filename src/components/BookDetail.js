@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Modal, Button, Row, Col, Container, Table} from 'react-bootstrap';
 
-
-function BookDetail(props) {
+const BookDetail = (props)  => {
 
   const link = props.previewLink;
 

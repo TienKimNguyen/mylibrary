@@ -13,13 +13,9 @@ const BookCard = (props) => {
                 <Card border="light" style={{ width: '18rem' }} className="card-container">
                     <Card.Img variant="top" src={props.image} className="book-image"/>
                     <Card.Body>
-                        {/* <Card.Title><h3>{props.title}</h3></Card.Title>
-                        <Card.Text>
-                            {props.description}
-                        </Card.Text> */}
                         <>
                             <Button variant="outline-dark" size = "sm" onClick={() => props.handleFavClick()}>
-                                Add
+                                {props.change === 'add' ? "Add" : "Remove"}
                             </Button>
                             <Button variant="outline-dark" size = "sm" onClick={() => setModalShow(true)}>
                                 More Info

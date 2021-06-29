@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "./Header";
 // import BookSlide from "./BookSlide";
 // import MyBooks from "./MyBooks";
@@ -7,57 +7,29 @@ import BookList from "./BookList";
 import '../styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-class App extends Component{
-  constructor (props){
-    super(props);
-    this.state = {
-      books: [],
-      searchField: '',
-      sort: '',
-      error: undefined,
-      totalItems: 0,
-      currentPage: 1,
-      showBookList: false,
-      favoriteBooks: []
-    }
-  };
+const App = () => {
+
+  // CREATE AND INITIALIZE VARIABLES
+  const [books, setBooks] = useState([]);
+  const [searchField, setSearchField] = useState('');
+  const [sort, setSort] = useState('');
+  const [error, setError] = useState('');
+  const [totalItems, setTotalItems] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showBookList, setShowBookList] = useState(false);
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
+  const numberPages = Math.floor(totalItems / 40);
+  const [sortedBooks, setSortedBooks] = useState([]);
   
-  searchBook = async (e) => {
-    e.preventDefault();
-    const searchTerm = this.state.searchField;
-    if (searchTerm){
-      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
-      const data = await api_call.json();
-      console.log(data);
-      const cleanData = this.cleanData(data)
-      this.setState({
-        books: cleanData, 
-        error: "",
-        totalItems: data.totalItems,
-        showBookList: true
-      })
-    } else {
-      this.setState({
-        error: "Please enter a keyword to search!", 
-        books: [], 
-        searchField: '',
-        totalItems: 0,
-        currentPage: 1,
-        sort: '',
-        showBookList: false
-      })
-    }
-  }
+  // CALL API
+  // const callApi = async (startIndex) => {
+  //   const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchField}&startIndex=${startIndex}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
+  //   const data = await api_call.json();
+  //   return data;
+  // }
 
-  handleSearch = (e) => {
-    this.setState({searchField: e.target.value})
-  }
-
-  handleSort = (e) => {
-    this.setState({sort: e.target.value})
-  }
-
-  cleanData = (data) => {
+  // CLEAN DATA FETCHED
+  const cleanData = (data) => {
     const cleanedData = data.items.map((book) => {
       if (book.volumeInfo.hasOwnProperty('publishedDate') === false){
         book.volumeInfo['publishedDate'] = '0000';
@@ -72,84 +44,132 @@ class App extends Component{
     return cleanedData;
   } 
 
-  handleNextPage = async(pageNumber) => {
-    const startIndex = (pageNumber - 1) * 40;
-    const search = this.state.searchField;
-    console.log(startIndex + this.state.searchField);
-    const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${search}&startIndex=${startIndex}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
-    const data = await api_call.json();
-    console.log(data);
-    const cleanData = this.cleanData(data)
-    this.setState({
-      books: cleanData,
-      error:"",
-      currentPage: pageNumber
-    })
+  // HANDLE SEARCH
+  const handleSearch = (e) => {
+    setSearchField(e.target.value);
   }
 
-  // useEffect(() =>
-  //   bookFavs = JSON.parse(
-	// 		localStorage.getItem('book-favs')
-	// 	);
+  // MAIN SEARCH FUNCTION
+  const searchBook = async (e) => {
+    e.preventDefault();
+  
+    setSort('');
+    setCurrentPage(1);
+   
+    if (searchField) // When there's a keyword entered
+    {
+      const startIndex = 0;
+      const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchField}&startIndex=${startIndex}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
+      const data = await api_call.json();
+      // const data = callApi(0);
+      console.log(data);
+      const cleanedData = cleanData(data);
 
-  //   console.log (bookFavs !== null ? "not null" : "null");
+      setBooks(cleanedData);
+      setError('');
+      setTotalItems(data.totalItems);
+      setShowBookList(true);
+      sortBooks(e);
+    } 
+    else // when there's no keyword entered
+    {
+      setBooks([]);
+      setSearchField('');
+      setError("Please enter a keyword to search!");
+      setTotalItems(0);
+      setShowBookList(false);
+    }
+  }
 
-	// 	if (bookFavs) {
-	// 		this.setState({favoriteBooks : bookFavs});
-	// 	}
-	// }, []);
- 
+  // HANDLE SORT
+  const handleSort = (e) => {
+    setSort(e.target.value);
+  }
 
-  saveToLocalStorage = (items) => {
-		localStorage.setItem('book-favs', JSON.stringify(items));
+  // MAIN SORT FUNCTION
+  const sortBooks = (e) => {
+    e.preventDefault();
+
+    setSortedBooks(
+      books.sort((a, b) => {
+        if (sort === 'Newest') {
+          // substring 0 - 4 is grasping the year
+          return parseInt(b.volumeInfo.publishedDate.substring(0,4)) - parseInt(a.volumeInfo.publishedDate.substring(0,4));
+        } else if  (sort === 'Oldest') {
+         return parseInt(a.volumeInfo.publishedDate.substring(0,4)) - parseInt(b.volumeInfo.publishedDate.substring(0,4));
+        } else {
+         return 0;
+        }
+      })
+    );
+
+   
+    console.log (sortedBooks);
+    
+  }
+
+  // HANDLE CLICKING ANOTHER NUMBERED PAGE
+  const handleNextPage = async (pageNumber) => {
+    const startIndex = (pageNumber - 1) * 40;
+    // const data = callApi(startIndex);
+    const api_call = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchField}&startIndex=${startIndex}&maxResults=40&key=AIzaSyCj9AcXnkPD-UdHuWczVChDugfTjzi7w60`);
+    const data = await api_call.json();
+    console.log(data);
+    const cleanedData = cleanData(data);
+
+    setBooks(cleanedData);
+    setError('');
+    setCurrentPage(pageNumber);
+  }
+
+  // RETRIEVING THE LIST OF FAVORITE BOOKS FROM LOCAL STORAGE ON CHANGE
+	useEffect(() => {
+		const bookFavorites = JSON.parse(
+			localStorage.getItem('book-favorites')
+		);
+
+		if (bookFavorites) {
+			setFavoriteBooks(bookFavorites);
+		}
+	}, []);
+
+  // SAVE FAVORITE LIST TO LOCAL STORAGE
+  const saveToLocalStorage = (items) => {
+		localStorage.setItem('book-favorites', JSON.stringify(items));
 	};
 
-	addFavoriteBook = (book) => {
-		const newFavoriteList = [...this.state.favoriteBooks, book];
-		this.setState({favoriteBooks: newFavoriteList});
-		this.saveToLocalStorage(newFavoriteList);
+  // ADD A BOOK TO THE LIST OF FAVORITE BOOKS IN LOCAL STORAGE
+	const addFavoriteBook = (book) => {
+		const newFavoriteList = [...favoriteBooks, book];
+    setFavoriteBooks(newFavoriteList);
+		saveToLocalStorage(newFavoriteList);
 	};
 
-	removeFavoriteBook = (book) => {
-		const newFavoriteList = this.state.favoriteBooks.filter(
+  // REMOVE A BOOK FROM THE LIST OF FAVORITE BOOKS IN LOCAL STORAGE
+	const removeFavoriteBook = (book) => {
+		const newFavoriteList = favoriteBooks.filter(
 			(favorite) => favorite.id !== book.id
 		);
 
-		this.setState({favoriteBooks : newFavoriteList});
-		this.saveToLocalStorage(newFavoriteList);
+    setFavoriteBooks(newFavoriteList);
+		saveToLocalStorage(newFavoriteList);
 	};
 
-  render() {
-   const sortedBooks = this.state.books.sort((a, b) => {
-     if (this.state.sort === 'Newest') {
-       // substring 0 - 4 is grasping the year
-       return parseInt(b.volumeInfo.publishedDate.substring(0,4)) - parseInt(a.volumeInfo.publishedDate.substring(0,4));
-    } else if  (this.state.sort === 'Oldest') {
-      return parseInt(a.volumeInfo.publishedDate.substring(0,4)) - parseInt(b.volumeInfo.publishedDate.substring(0,4));
-    } else {
-      return 0;
-    }
-   })
+  return(
+    <div className="App">
+      <div className = "Books">
+        <Header searchBook={searchBook} handleSearch={handleSearch} handleSort={handleSort} error={error}/> 
+        {/* <MyBooks /> */}
+        {/* {searchFieldshowBookList === false ? <BookSlide /> : '' } */}
 
-    const error = this.state.error;
-    const numberPages = Math.floor(this.state.totalItems / 40);
-    return(
-      <div className="App">
-        <div className = "Books">
-          <Header searchBook={this.searchBook} handleSearch={this.handleSearch} handleSort={this.handleSort} error={error}/> 
-          {/* <MyBooks /> */}
-          <h1>Books</h1>
-          {/* {this.state.showBookList === false ? <BookSlide /> : '' } */}
-
-          {this.state.totalItems > 40 ? <PaginationPage pages={numberPages} prevPage={this.handlePrevPage} currentPage = {this.state.currentPage} nextPage={this.handleNextPage}/> : ''}
-          {this.state.searchTerm !== '' ? <BookList books = {sortedBooks} handleFavClick={this.addFavoriteBook} /> : ''}
-          <h1>Favorite Books</h1>
-          {this.state.favoriteBooks !== null ? <BookList books = {this.state.favoriteBooks} handleFavClick={this.removeFavoriteBook} /> : '' }
-        </div>
+        {totalItems > 40 ? <PaginationPage pages={18} currentPage = {currentPage} nextPage={handleNextPage}/> : ''}
+        
+        {searchField !== '' ? <BookList books = {books} handleFavClick={addFavoriteBook} change={'add'} /> : ''}
+        <h1>Favorite Books</h1>
+        {favoriteBooks !== null ? <BookList books = {favoriteBooks} handleFavClick={removeFavoriteBook} change={'remove'}/> : '' }
       </div>
-
-    );
-  }
+    </div>
+  );
 };
 
 export default App;
