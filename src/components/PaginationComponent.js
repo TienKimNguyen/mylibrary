@@ -1,9 +1,14 @@
 import React from "react";
 
+/**
+ * 
+ * @param {*} props variables and functions passed from Home.js
+ * @returns a pagination area showing numbered links leading to different pages
+ */
 const PaginationPage = (props) => {
-    const pageLinks = []
+    const pageLinks = [];
+    
     for (let i = 1; i <= props.pages + 1; i++){
-        // let active = props.currentPage === i ? 'active' : '';
         pageLinks.push(<li className="pageNum"  key={i} onClick={() => {
             props.nextPage(i)}}>
             <a href="#" className="pageNum">{i}</a>

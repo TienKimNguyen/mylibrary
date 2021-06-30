@@ -1,6 +1,11 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+/**
+ * 
+ * @param {*} props passed functions to handle search and sort
+ * @returns a search area that contains an input place, search, and sort buttons
+ */
 const SearchArea = (props) => {
   return (
     <div className="search-area">

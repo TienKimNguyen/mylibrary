@@ -3,9 +3,10 @@
   justify-content: center;
   font-family: "Arial";
 }
-/*
-  NAVBAR
-*/
+
+
+
+/*-------------- NAVBAR --------------*/
 
 .logo {
   width: 50px;
@@ -17,11 +18,15 @@
   margin-left: 10px;
 }
 
+
+
+/*-------------- HEADER --------------*/
+
 .main-header {
   padding: 200px 0;
   text-align: center;
   color: #fff;
-  background: url("../images/library.jpg");
+  background: url("../images/book.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -39,20 +44,10 @@
   font-size: 3rem;
 }
 
-/*
-  CAROUSEL
-*/
-.carousel-slide{
-  background-color: #ef8172;
-}
-.carousel-image {
-  position: relative;
-  align-content: center;
-}
 
-/* 
-  SEARCH AREA 
-*/
+
+/*-------------- SEARCH AREA --------------*/
+
 .search-area {
   text-align: center;
   padding: 30px 15px 0;
@@ -78,9 +73,7 @@ input {
   height: 45px;
 }
 
-/* 
-  BOOK LIST 
-*/
+/*-------------- PAGINATION --------------*/
 
 .pagination-container {
   display: inline-block;
@@ -128,14 +121,19 @@ input {
   background-color: white;
 }
 
+
+
+/*-------------- BOOK LIST --------------*/
+
 .list {
   padding: 15px 100px 0;
   text-align: center;
 }
 
-/*
-  CARD CONTAINER
-*/
+
+
+/*-------------- BOOK CARD --------------*/
+
 .book-image {
   width: 100%;
   height: 23em;
@@ -148,7 +146,6 @@ input {
     height: 21em;
   }
 }
-
 
 .bookCard-col {
   padding: 3% 2%;
@@ -167,17 +164,14 @@ input {
   transform: scale(1.1);
 }
 
-.desc {
-  width: 200px;
-  padding-top: 10px;
-}
-
 .books_error {
   margin-top: 50px;
   color:white;
   letter-spacing: 1px;
-  
 }
+
+
+/*-------------- BOOK DETAIL / MODAL / POPUP --------------*/
 
 .infoBtn {
   margin-left: 5px;

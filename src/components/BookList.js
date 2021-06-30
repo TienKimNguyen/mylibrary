@@ -1,10 +1,13 @@
 import React from 'react';
 import BookCard from './BookCard';
 
+/**
+ * This will shows all the book when a user search or when user enters "MyBooks" page
+ * @param {*} props list of books from any page calling it
+ * @returns a book list displayed in formatted row/col
+ */
 const BookList = (props) => {
-
     return(
-        <div>
             <div className="list row">
                 {
                     props.books.map((book, i) => {
@@ -32,7 +35,6 @@ const BookList = (props) => {
                     })
                 }
             </div>
-        </div>
     )
 }
 

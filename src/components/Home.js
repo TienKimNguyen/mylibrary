@@ -1,18 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Header from "./Header";
 import PaginationPage from "./PaginationComponent";
 import BookList from "./BookList";
 import '../styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MyBooks from "./MyBooks";
 
-
+/**
+ * This is the main lading page that contains the header and list of books searched by user
+ * @returns main / home page when first opened
+ */
 const Home = () => {
 
   // CREATE AND INITIALIZE VARIABLES
   const [books, setBooks] = useState([]);
   const [searchField, setSearchField] = useState('');
-  const [sort, setSort] = useState("Newest");
+  const [sort, setSort] = useState("Sort");
   const [error, setError] = useState('');
   const [totalItems, setTotalItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);

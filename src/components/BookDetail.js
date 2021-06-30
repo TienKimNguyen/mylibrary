@@ -1,12 +1,23 @@
 import * as React from 'react';
 import { Modal, Button, Row, Col, Container, Table} from 'react-bootstrap';
 
+/**
+ * 
+ * @param {*} props book information passed down from BookCard
+ * @returns a pop-up window showing all the information of a books
+ */
 const BookDetail = (props)  => {
 
-  const link = props.previewLink;
-      let isbn = "";
+  /**
+   * Declare and initialize variables
+   */
+    const link = props.previewLink;
+    let isbn = "";
     let authors = "";
 
+    /**
+     * Check if a book has ISBN 13. If not, assign "N/A" to its variable
+     */
     if (props.isbn === undefined) {
         isbn = "N/A";
     } else {
@@ -19,6 +30,11 @@ const BookDetail = (props)  => {
         }
     }
 
+    /**
+     * Check if a book has author information.
+     * If yes, make a list of author[s] displayed in desired way
+     * Otherwise, assign "N/A" to its variable
+     */
     if (props.authors === undefined) {
         authors = "N/A";
     } else {
@@ -71,7 +87,7 @@ const BookDetail = (props)  => {
                       </tr>
                       <tr>
                         <td>Average Rating</td>
-                        <td>{props.rating !== undefined ? props.rating + " / 5" : "N/A"}</td>
+                        <td>{props.rating !== "N/A" ? props.rating + " / 5" : "N/A"}</td>
                       </tr>
                       <tr>
                         <td>Length</td>
