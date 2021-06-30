@@ -11,12 +11,12 @@ const PaginationPage = (props) => {
     }
 
     return (
-        <div className="pagination-container">
-                <div className="pagination">
-                    {props.currentPage > 1 ? <li className="pageNum" onClick={() => props.nextPage(props.currentPage - 1)}><a href="#" className="pageNum">Prev</a></li> : ''}
-                    {pageLinks}
-                    {props.currentPage < props.pages + 1 ? <li className="pageNum" onClick={() => props.nextPage(props.currentPage + 1)}><a href="#" className="pageNum">Next</a></li> : ''}
-                </div>
+        <div className="container">
+            <div className="pagination">
+                {props.currentPage > 1 ? <li onClick={() => props.nextPage(props.currentPage - 1)}><a href="#" className="page-nav">Prev</a></li> : ''}
+                {pageLinks}
+                {props.currentPage < props.pages + 1 ? <li onClick={() => props.nextPage(props.currentPage + 1)}><a href="#" className="page-nav">Next</a></li> : ''}
+            </div>
         </div>
     )
 }

@@ -1,42 +1,44 @@
-import { Component } from "react";
+import React, {useState, useEffect} from "react";
+import BookList from "./BookList";
 
-export default class MyBooks extends Component {
-    state = {
-        user: '',
-        rememberMe: false
-      };
-     
-      handleChange = (event) => {
-        const input = event.target;
-        const value = input.type === 'checkbox' ? input.checked : input.value;
-     
-        this.setState({ [input.name]: value });
-      };
-     
-      handleFormSubmit = () => {
-        const { user, rememberMe } = this.state;
-        localStorage.setItem('rememberMe', rememberMe);
-        localStorage.setItem('user', rememberMe ? user : '');
-      };
+const MyBooks = (props) => {
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
+  console.log(props.books === undefined ? "yes" :"no");
 
-      componentDidMount() {
-        const rememberMe = localStorage.getItem('rememberMe') === 'true';
-        const user = rememberMe ? localStorage.getItem('user') : '';
-        this.setState({ user, rememberMe });
-      };
-     
-      render() {
-        return (
-            <form onSubmit={this.handleFormSubmit}>
-              <label>
-                User: <input name="user" value={this.state.user} onChange={this.handleChange}/>
-              </label>
-              <label>
-                <input name="rememberMe" checked={this.state.rememberMe} onChange={this.handleChange} type="checkbox"/> Remember me
-              </label>
-              <button type="submit">Sign In</button>
-            </form>
-          );
-      }
-    
+  const saveToLocalStorage = (items) => {
+		localStorage.setItem('book-favorites', JSON.stringify(items));
+	};
+
+  const removeFavoriteBook = (book) => {
+		const newFavoriteList = favoriteBooks.filter(
+			(favorite) => favorite.id !== book.id
+		);
+
+    setFavoriteBooks(newFavoriteList);
+		saveToLocalStorage(newFavoriteList);
+	};
+
+  useEffect(() => {
+		const bookFavorites = JSON.parse(
+			localStorage.getItem('book-favorites')
+		);
+
+		if (bookFavorites) {
+			setFavoriteBooks(bookFavorites);
+		}
+	}, []);
+
+  return (
+      <div>
+        
+        <div className="list" style={{display: "inline-flex", justifyContent: "center", width: "100%", marginTop: "30px"}}>
+          <i className="fas fa-book-reader fa-3x"></i>
+          <h1 style={{marginLeft: "20px" }}>MY BOOKS</h1>
+        </div>
+        <BookList books = {favoriteBooks} handleFavClick={removeFavoriteBook} change={props.change}/> 
+      </div>
+      
+    );
 }
+
+export default MyBooks;

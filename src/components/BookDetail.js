@@ -4,6 +4,31 @@ import { Modal, Button, Row, Col, Container, Table} from 'react-bootstrap';
 const BookDetail = (props)  => {
 
   const link = props.previewLink;
+      let isbn = "";
+    let authors = "";
+
+    if (props.isbn === undefined) {
+        isbn = "N/A";
+    } else {
+        if (props.isbn[0] !== undefined && props.isbn[0].type === "ISBN_13"){
+            isbn = props.isbn[0].identifier;
+        } else if (props.isbn[1] !== undefined && props.isbn[1].type === "ISBN_13"){
+            isbn = props.isbn[1].identifier;
+        } else {
+            isbn = "N/A";
+        }
+    }
+
+    if (props.authors === undefined) {
+        authors = "N/A";
+    } else {
+        for (let i = 0; i < props.authors.length; i++) {
+            if (i !== 0){
+                authors = authors + " | ";
+            }
+            authors = authors + props.authors[i];
+        }
+    }
 
     return (
       <Modal
@@ -34,7 +59,7 @@ const BookDetail = (props)  => {
                       </tr>
                       <tr>
                         <td>Authors</td>
-                        <td>{props.authors}</td>
+                        <td>{authors}</td>
                       </tr>
                       <tr>
                         <td>Published Year</td>
@@ -42,27 +67,27 @@ const BookDetail = (props)  => {
                       </tr>
                       <tr>
                         <td>Publisher</td>
-                        <td>{props.publisher}</td>
+                        <td>{props.publisher !== undefined ? props.publisher : "N/A"}</td>
                       </tr>
                       <tr>
                         <td>Average Rating</td>
-                        <td>{props.rating} / 5</td>
+                        <td>{props.rating !== undefined ? props.rating + " / 5" : "N/A"}</td>
                       </tr>
                       <tr>
                         <td>Length</td>
-                        <td>{props.length} pages</td>
+                        <td>{props.length !== undefined ? props.length + " pages" : "N/A"}</td>
                       </tr>
                       <tr>
                         <td>Categories</td>
-                        <td>{props.categories}</td>
+                        <td>{props.categories !== undefined ? props.categories : "N/A"}</td>
                       </tr>
                       <tr>
                         <td>ISBN</td>
-                        <td>{props.isbn}</td>
+                        <td>{isbn}</td>
                       </tr>
                       <tr>
                         <td>Description</td>
-                        <td className="description-text">{props.description}</td>
+                        <td>{props.description === undefined ? "N/A" : props.description}</td>
                       </tr>
                     </tbody>
                 </Table>
