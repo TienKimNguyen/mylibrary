@@ -2,7 +2,7 @@ import React from "react";
 import SearchArea from "./SearchArea";
 
 /**
- * 
+ * This is the header of the app in the HOME page
  * @param {*} props functions and error (if possible) passed from Home
  * @returns a header that contains title and search area and 
  * shows error when the user search with an empty keyword
@@ -12,7 +12,7 @@ const Header = (props) => {
     <div className="main-header">
 
         <div className="header">
-          <h1>Find your books of life here</h1>
+          <h1>Find your books of life here.</h1>
         </div>
       
       <div className="search-bar">
